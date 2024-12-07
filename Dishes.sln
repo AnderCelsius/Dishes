@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34707.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dishes.API", "src\Dishes.API\Dishes.API.csproj", "{53939533-EF1A-4B71-8E82-3D3AF647309E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dishes.Common", "src\Dishes.Common\Dishes.Common.csproj", "{FA10686F-F6BD-4A4B-B685-355DFE1AFB2C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dishes.Core", "src\Dishes.Core\Dishes.Core.csproj", "{3BC1D087-75F9-4BD3-8164-462471FE7F2B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dishes.Infrastructure", "src\Dishes.Infrastructure\Dishes.Infrastructure.csproj", "{36704F46-F7B0-47A7-8924-0780B18898D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dishes.Web", "src\Dishes.Web\Dishes.Web.csproj", "{E89892E1-9E04-4EEA-812A-A89A79D6AB76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.AppHost", "src\Dishes.AppHost\Dishes.AppHost.csproj", "{8EBA61BB-0CC7-4808-AEE3-C0407201BF96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.ServiceDefaults", "src\Dishes.ServiceDefaults\Dishes.ServiceDefaults.csproj", "{AA55BCD5-4555-467C-9601-30D7A18B535C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53939533-EF1A-4B71-8E82-3D3AF647309E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53939533-EF1A-4B71-8E82-3D3AF647309E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53939533-EF1A-4B71-8E82-3D3AF647309E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53939533-EF1A-4B71-8E82-3D3AF647309E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA10686F-F6BD-4A4B-B685-355DFE1AFB2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA10686F-F6BD-4A4B-B685-355DFE1AFB2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA10686F-F6BD-4A4B-B685-355DFE1AFB2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA10686F-F6BD-4A4B-B685-355DFE1AFB2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BC1D087-75F9-4BD3-8164-462471FE7F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC1D087-75F9-4BD3-8164-462471FE7F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC1D087-75F9-4BD3-8164-462471FE7F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC1D087-75F9-4BD3-8164-462471FE7F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36704F46-F7B0-47A7-8924-0780B18898D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36704F46-F7B0-47A7-8924-0780B18898D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36704F46-F7B0-47A7-8924-0780B18898D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36704F46-F7B0-47A7-8924-0780B18898D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89892E1-9E04-4EEA-812A-A89A79D6AB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89892E1-9E04-4EEA-812A-A89A79D6AB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89892E1-9E04-4EEA-812A-A89A79D6AB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89892E1-9E04-4EEA-812A-A89A79D6AB76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBA61BB-0CC7-4808-AEE3-C0407201BF96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBA61BB-0CC7-4808-AEE3-C0407201BF96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBA61BB-0CC7-4808-AEE3-C0407201BF96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBA61BB-0CC7-4808-AEE3-C0407201BF96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EBC8201-C9DD-4E73-90E1-B0CBED91C345}
+	EndGlobalSection
+EndGlobal
