@@ -4,21 +4,27 @@ namespace Dishes.Core.Entities;
 
 public class Ingredient
 {
-  public Ingredient()
-  { }
+    public Ingredient()
+    { }
 
-  [SetsRequiredMembers]
-  public Ingredient(Guid id, string name)
-  {
-    Id = id;
-    Name = name;
-  }
+    [SetsRequiredMembers]
+    public Ingredient(string name)
+    {
+        Name = name;
+    }
 
-  public Guid Id { get; set; }
+    [SetsRequiredMembers]
+    public Ingredient(Guid id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
 
-  public required string Name { get; set; }
+    public Guid Id { get; set; }
 
-  public ICollection<Dish> Dishes { get; set; } = new List<Dish>();
+    public required string Name { get; set; }
 
-  public ICollection<DishIngredient> DishIngredients { get; set; } = new List<DishIngredient>();
+    public ICollection<Dish> Dishes { get; set; } = new List<Dish>();
+
+    public ICollection<DishIngredient> DishIngredients { get; set; } = new List<DishIngredient>();
 }

@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dishes.API\Dishes.API.csproj" />
+    <ProjectReference Include="..\Dishes.Webhook\Dishes.Webhook.csproj" />
     <ProjectReference Include="..\Dishes.Web\Dishes.Web.csproj" />
   </ItemGroup>
   <ItemGroup>

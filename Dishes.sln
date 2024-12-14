@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.AppHost", "src\Dishe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.ServiceDefaults", "src\Dishes.ServiceDefaults\Dishes.ServiceDefaults.csproj", "{AA55BCD5-4555-467C-9601-30D7A18B535C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.Webhook", "src\Dishes.Webhook\Dishes.Webhook.csproj", "{9173A61E-5A8B-2EFA-E891-7D31480027AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dishes.Services", "src\Dishes.Services\Dishes.Services.csproj", "{064D0F88-D952-45EF-8C72-E3AF6F02FDF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA55BCD5-4555-467C-9601-30D7A18B535C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9173A61E-5A8B-2EFA-E891-7D31480027AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9173A61E-5A8B-2EFA-E891-7D31480027AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9173A61E-5A8B-2EFA-E891-7D31480027AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9173A61E-5A8B-2EFA-E891-7D31480027AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{064D0F88-D952-45EF-8C72-E3AF6F02FDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{064D0F88-D952-45EF-8C72-E3AF6F02FDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{064D0F88-D952-45EF-8C72-E3AF6F02FDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{064D0F88-D952-45EF-8C72-E3AF6F02FDF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

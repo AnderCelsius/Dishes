@@ -6,11 +6,8 @@ namespace Dishes.Common.MapProfiles;
 
 public class IngredientProfile : Profile
 {
-  public IngredientProfile()
-  {
-    CreateMap<Ingredient, IngredientDto>()
-      .ForMember(
-          d => d.DishId,
-          o => o.MapFrom(s => s.Dishes.First().Id));
-  }
+    public IngredientProfile()
+    {
+        CreateMap<Ingredient, IngredientDTO>().ReverseMap();
+    }
 }

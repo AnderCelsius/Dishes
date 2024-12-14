@@ -8,8 +8,8 @@ public class DishProfile : Profile
 {
     public DishProfile()
     {
-        CreateMap<Dish, DishDto>();
-        CreateMap<DishForCreationDto, Dish>();
-        CreateMap<DishForUpdateDto, Dish>();
+        CreateMap<Dish, DishDTO>().ReverseMap();
+        CreateMap<Dish, DishListDTO>().ReverseMap();
+        CreateMap<DishRequestDTO, Dish>();
     }
 }
