@@ -1,44 +1,61 @@
+// Controllers/WebhookController.cs
+using Dishes.Common.Models;
+using Dishes.Webhook.Repositories;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Dishes.Webhook.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class WebhookController : ControllerBase
 {
+    private readonly IWebhookRepository _repository;
     private readonly ILogger<WebhookController> _logger;
 
-    // Replace with your actual secret token for security
-    private readonly string _secretToken = "YourSecretTokenHere";
-
-    public WebhookController(ILogger<WebhookController> logger)
+    public WebhookController(IWebhookRepository repository, ILogger<WebhookController> logger)
     {
+        _repository = repository;
         _logger = logger;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Receive([FromBody] WebhookPayload payload)
+    // Subscribe to an event
+    [HttpPost("subscribe")]
+    public async Task<IActionResult> Subscribe([FromBody] WebhookSubscription subscription)
     {
-        // Verify the secret token
-        if (!Request.Headers.TryGetValue("X-Webhook-Secret", out var extractedToken))
+        if (string.IsNullOrEmpty(subscription.Event))
+            return BadRequest("Event and CallbackUrl are required.");
+
+        await _repository.AddSubscriptionAsync(subscription);
+        _logger.LogInformation($"New event: {subscription.Event}");
+        return Ok(new { message = "Subscription added successfully." });
+    }
+
+    // Unsubscribe from an event
+    [HttpDelete("unsubscribe/{id}")]
+    public async Task<IActionResult> Unsubscribe(int id)
+    {
+        await _repository.RemoveSubscriptionAsync(id);
+        return Ok(new { message = "Subscription removed successfully." });
+    }
+
+    // (Optional) Get all subscriptions
+    [HttpGet("subscriptions")]
+    public async Task<IActionResult> GetSubscriptions()
+    {
+        var subscriptions = await _repository.GetAllSubscriptionsAsync();
+        return Ok(subscriptions);
+    }
+
+    [HttpGet("subscriptions/{eventName}")]
+    public async Task<IActionResult> GetSubscription(string eventName)
+    {
+        if (string.IsNullOrEmpty(eventName))
         {
-            _logger.LogWarning("Missing X-Webhook-Secret header.");
-            return Unauthorized();
+            return BadRequest("Event query parameter is required.");
         }
 
-        if (extractedToken != _secretToken)
-        {
-            _logger.LogWarning("Invalid secret token.");
-            return Unauthorized();
-        }
-
-        // Log the received payload
-        _logger.LogInformation("Received webhook payload: {@Payload}", payload);
-
-        // TODO: Add your processing logic here
-        // For example, update the database, trigger business logic, etc.
-
-        // Respond with 200 OK to acknowledge receipt
-        return Ok(new { status = "Webhook received successfully" });
+        var subscriptions = await _repository.GetSubscriptionsAsync(eventName);
+        return Ok(subscriptions);
     }
 }

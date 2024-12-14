@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dishes.API.Dispatchers;
 using Dishes.API.Exceptions;
 using Dishes.Common.Models;
 using Dishes.Core.Contracts;
@@ -15,7 +16,8 @@ public static class Create
 
     public class Handler(
         IGenericRepository<Dish> dishRepository,
-        IMapper mapper
+        IMapper mapper,
+        IWebhookEventDispatcher webhookDispatcher
     ) : IRequestHandler<Request, DishDTO>
     {
         private readonly IGenericRepository<Dish> _dishRepository = dishRepository ?? throw new ArgumentException(nameof(dishRepository));
@@ -26,6 +28,8 @@ public static class Create
         {
             var dish = new Dish(request.Name);
             await _dishRepository.InsertAsync(dish);
+
+            await webhookDispatcher.DispatchEventAsync("DishAdded", dish);
 
             return _mapper.Map<DishDTO>(dish);
         }

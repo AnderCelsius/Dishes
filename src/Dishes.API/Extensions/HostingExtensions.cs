@@ -1,4 +1,5 @@
 ﻿using Dishes.API.Configuration.Middleware;
+using Dishes.API.Dispatchers;
 using Dishes.API.Services;
 using Dishes.Common.Configurations;
 using Dishes.Common.Extensions;
@@ -31,6 +32,11 @@ public static class HostingExtensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGenWithExtraSetup(builder.Configuration, nameof(Features));
 
+        builder.Services.AddHttpClient("WebhookService", client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7159/api/webhook/");
+        });
+
         builder.Services.AddHealthChecks()
           .AddDbContextCheck<DishesDbContext>();
 
@@ -51,6 +57,8 @@ public static class HostingExtensions
         builder.Services.AddSingleton<IEdmModel>(edmModel);
 
         builder.Services.AddScoped<IWebhookService, WebhookService>();
+
+        builder.Services.AddScoped<IWebhookEventDispatcher, WebhookEventDispatcher>();
 
         builder.Services
             .AddControllers()
