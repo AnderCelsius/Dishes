@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -7,6 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper.AspNetCore.OData.EFCore" Version="6.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" version="11.3.0" />
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
@@ -21,5 +26,6 @@
     <ProjectReference Include="..\Dishes.Common\Dishes.Common.csproj" />
     <ProjectReference Include="..\Dishes.Infrastructure\Dishes.Infrastructure.csproj" />
     <ProjectReference Include="..\Dishes.ServiceDefaults\Dishes.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Dishes.Services\Dishes.Services.csproj" />
   </ItemGroup>
 </Project>

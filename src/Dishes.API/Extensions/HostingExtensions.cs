@@ -1,18 +1,17 @@
-﻿using AutoMapper;
+﻿using Dishes.API.Configuration.Middleware;
+using Dishes.API.Dispatchers;
+using Dishes.API.Services;
 using Dishes.Common.Configurations;
 using Dishes.Common.Extensions;
 using Dishes.Common.MapProfiles;
-using Dishes.Common.Models;
-using Dishes.Core.Entities;
+using Dishes.Core.Contracts;
 using Dishes.Infrastructure;
 using Dishes.Infrastructure.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Dishes.Infrastructure.Repositories;
 using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.Edm;
-using Microsoft.OData.ModelBuilder;
 using Serilog;
+using System.Reflection;
 
 namespace Dishes.API.Extensions;
 
@@ -22,22 +21,55 @@ public static class HostingExtensions
     {
         builder.AddServiceDefaults();
 
+        builder.AddFluentValidationExtension();
+
+        builder.Services.AddHttpContextAccessor();
+
+        builder.Services.AddConfigurationOptions();
+
+        builder.Services.AddCommonConfigurationOptions();
+
+        Hellang.Middleware.ProblemDetails.ProblemDetailsExtensions.AddProblemDetails(builder.Services);
+
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGenWithExtraSetup(builder.Configuration, nameof(Features));
+
+        builder.Services.AddHttpClient("WebhookService", client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7159/api/webhook/");
+        });
 
         builder.Services.AddHealthChecks()
           .AddDbContextCheck<DishesDbContext>();
 
+        builder.Services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+
         builder.Services.AddAutoMapper(typeof(DishProfile).Assembly);
 
+        builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-        var modelBuilder = new ODataConventionModelBuilder();
-        modelBuilder.EntitySet<DishDto>("Dishes");
+        // 1. Build EDM Model
+        var edmModel = ODataConventionModelBuilderExtensions.BuildODataConventionModel();
 
-        builder.Services.AddControllers()
-            .AddOData(options => options.Select().Filter().OrderBy().SetMaxTop(100).Expand()
-            .AddRouteComponents(
-            "odata", modelBuilder.GetEdmModel()));
+        // 2. Register IEdmModel as a Singleton
+        builder.Services.AddSingleton<IEdmModel>(edmModel);
+
+        builder.Services.AddScoped<IWebhookService, WebhookService>();
+
+        builder.Services.AddScoped<IWebhookEventDispatcher, WebhookEventDispatcher>();
+
+        builder.Services
+            .AddControllers()
+            .AddOData()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
 
         builder.Services.AddDatabase<DishesDbContext>(builder.Configuration
       .GetRequiredSection("Database").Get<DatabaseConfiguration>());
@@ -55,43 +87,19 @@ public static class HostingExtensions
             app.UseSwagger().UseSwaggerUI();
         }
 
+        app.UseRouting();
+
+        app.UseODataRouteDebug();
+
         app.UseODataBatching();
 
         app.UseHealthChecks("/health");
 
-        app.MapGet("/dishes", async Task<Ok<IEnumerable<DishDto>>> (DishesDbContext dishesDbContext, IMapper mapper) =>
-        {
-            var dishes = await dishesDbContext.Dishes.ToListAsync();
-            return TypedResults.Ok(mapper.Map<IEnumerable<DishDto>>(dishes));
-        });
-
-        app.MapGet("/dishes/{dishId}", async Task<Results<Ok<DishDto>, NotFound>> (Guid dishId, DishesDbContext dishesDbContext, IMapper mapper) =>
-        {
-            var dish = await dishesDbContext.Dishes.Where(d => d.Id == dishId).FirstOrDefaultAsync();
-
-            return dish == null ? TypedResults.NotFound() : TypedResults.Ok(mapper.Map<DishDto>(dish));
-        });
-
-        app.MapGet("/odata/dishes/", async (HttpContext httpContext, DishesDbContext dishesDbContext, IMapper mapper) =>
-        {
-            var options = new ODataQueryOptions<Dish>(new ODataQueryContext(GetEdmModel(), typeof(Dish), null), httpContext.Request);
-            var query = options.ApplyTo(dishesDbContext.Dishes.AsQueryable());
-            var results = await query.Cast<Dish>().ToListAsync();
-            return Results.Ok(mapper.Map<IEnumerable<DishDto>>(results));
-        }).Produces<IEnumerable<DishDto>>();
-
-
+        app.RegisterDishesEndpoints();
+        app.RegisterIngredientsEndpoints();
 
         app.UseHttpsRedirection();
 
         app.MapDefaultEndpoints();
-    }
-
-
-    public static IEdmModel GetEdmModel()
-    {
-        var builder = new ODataConventionModelBuilder();
-        builder.EntitySet<Dish>("Dishes");
-        return builder.GetEdmModel();
     }
 }

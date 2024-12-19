@@ -15,6 +15,12 @@ public class Dish
         Name = name;
     }
 
+    [SetsRequiredMembers]
+    public Dish(string name)
+    {
+        Name = name;
+    }
+
     public Guid Id { get; set; }
 
     public required string Name { get; set; }

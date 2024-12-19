@@ -1,4 +1,5 @@
 ﻿@page "/dishes"
+@using Dishes.Common.Models
 @attribute [StreamRendering(true)]
 
 @inject DishesApiClient DishesApi
@@ -40,7 +41,7 @@ else
 }
 
 @code {
-    private DishDto[]? dishes;
+    private IEnumerable<DishListDTO> dishes;
 
     protected override async Task OnInitializedAsync()
     {

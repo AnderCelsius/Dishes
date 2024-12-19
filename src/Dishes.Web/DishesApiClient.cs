@@ -4,8 +4,9 @@ namespace Dishes.Web;
 
 public class DishesApiClient(HttpClient httpClient)
 {
-    public async Task<DishDto[]> GetDishesAsync()
+    public async Task<List<DishListDTO>> GetDishesAsync()
     {
-        return await httpClient.GetFromJsonAsync<DishDto[]>("/dishes") ?? [];
+        var result = await httpClient.GetFromJsonAsync<PagedResponse<DishListDTO>>("/odata/dishes");
+        return result.Items.ToList();
     }
 }

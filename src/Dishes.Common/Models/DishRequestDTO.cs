@@ -1,6 +1,6 @@
 ﻿namespace Dishes.Common.Models;
 
-public class DishForUpdateDto
+public class DishRequestDTO
 {
   public required string Name { get; set; }
 }

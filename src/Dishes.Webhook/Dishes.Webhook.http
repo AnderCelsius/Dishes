@@ -1,0 +1,6 @@
+@Dishes.Webhook_HostAddress = http://localhost:5029
+
+GET {{Dishes.Webhook_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
