@@ -29,9 +29,11 @@ public static class Create
             var dish = new Dish(request.Name);
             await _dishRepository.InsertAsync(dish);
 
-            await webhookDispatcher.DispatchEventAsync("DishAdded", dish);
+            var result = _mapper.Map<DishDTO>(dish);
 
-            return _mapper.Map<DishDTO>(dish);
+            await webhookDispatcher.DispatchEventAsync("DishAdded", result);
+
+            return result;
         }
     }
 

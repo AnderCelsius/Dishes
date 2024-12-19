@@ -4,7 +4,6 @@ using Dishes.API.Extensions;
 using Dishes.API.Features.Dishes;
 using Dishes.Common.Models;
 using Dishes.Core.Contracts;
-using Dishes.Core.Events;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -66,8 +65,6 @@ public static class DishesEndpoints
     )
     {
         var dish = await mediator.Send(request, cancellationToken);
-
-        await webhookService.SendWebhookAsync(WebhookEvent.DishCreated, dish);
 
         return TypedResults.CreatedAtRoute(
             dish,

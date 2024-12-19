@@ -1,4 +1,5 @@
 ﻿@page "/dishes"
+@using Dishes.Common.Models
 @attribute [StreamRendering(true)]
 
 @inject DishesApiClient DishesApi
@@ -10,7 +11,7 @@
 <p>This component demonstrates showing data.</p>
 
 @{
-int count = 0;
+    int count = 0;
 }
 
 @if (dishes == null)
@@ -28,23 +29,23 @@ else
         </thead>
         <tbody>
             @foreach (var dish in dishes)
-        {
-            count++;
+            {
+                count++;
                 <tr>
                     <td>@count</td>
                     <td>@dish.Name</td>
                 </tr>
-        }
+            }
         </tbody>
     </table>
 }
 
 @code {
-private DishDTO[]? dishes;
+    private IEnumerable<DishListDTO> dishes;
 
-protected override async Task OnInitializedAsync()
-{
-    dishes = await DishesApi.GetDishesAsync();
-}
+    protected override async Task OnInitializedAsync()
+    {
+        dishes = await DishesApi.GetDishesAsync();
+    }
 
 }

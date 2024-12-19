@@ -1,4 +1,4 @@
-﻿using Dishes.Common.Models;
+﻿using Dishes.Webhook.Data;
 
 namespace Dishes.Webhook.Repositories;
 

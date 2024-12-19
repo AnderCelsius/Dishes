@@ -17,13 +17,16 @@ namespace Dishes.Webhook.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Dishes.Common.Models.WebhookSubscription", b =>
+            modelBuilder.Entity("Dishes.Webhook.Data.WebhookSubscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Data")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Event")

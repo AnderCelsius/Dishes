@@ -1,5 +1,7 @@
 // Controllers/WebhookController.cs
+using AutoMapper;
 using Dishes.Common.Models;
+using Dishes.Webhook.Data;
 using Dishes.Webhook.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,21 +14,29 @@ public class WebhookController : ControllerBase
 {
     private readonly IWebhookRepository _repository;
     private readonly ILogger<WebhookController> _logger;
+    private readonly IMapper _mapper;
 
-    public WebhookController(IWebhookRepository repository, ILogger<WebhookController> logger)
+    public WebhookController(
+        IWebhookRepository repository,
+        ILogger<WebhookController> logger,
+        IMapper mapper
+    )
     {
         _repository = repository;
         _logger = logger;
+        _mapper = mapper;
     }
 
     // Subscribe to an event
     [HttpPost("subscribe")]
-    public async Task<IActionResult> Subscribe([FromBody] WebhookSubscription subscription)
+    public async Task<IActionResult> Subscribe(WebhookSubscriptionDTO subscription)
     {
         if (string.IsNullOrEmpty(subscription.Event))
             return BadRequest("Event and CallbackUrl are required.");
 
-        await _repository.AddSubscriptionAsync(subscription);
+        var webhookSubscription = _mapper.Map<WebhookSubscription>(subscription);
+
+        await _repository.AddSubscriptionAsync(webhookSubscription);
         _logger.LogInformation($"New event: {subscription.Event}");
         return Ok(new { message = "Subscription added successfully." });
     }
@@ -39,12 +49,12 @@ public class WebhookController : ControllerBase
         return Ok(new { message = "Subscription removed successfully." });
     }
 
-    // (Optional) Get all subscriptions
     [HttpGet("subscriptions")]
     public async Task<IActionResult> GetSubscriptions()
     {
         var subscriptions = await _repository.GetAllSubscriptionsAsync();
-        return Ok(subscriptions);
+        var webhookSubscriptions = _mapper.Map<List<WebhookSubscriptionDTO>>(subscriptions);
+        return Ok(webhookSubscriptions);
     }
 
     [HttpGet("subscriptions/{eventName}")]
@@ -56,6 +66,7 @@ public class WebhookController : ControllerBase
         }
 
         var subscriptions = await _repository.GetSubscriptionsAsync(eventName);
-        return Ok(subscriptions);
+        var webhookSubscriptions = _mapper.Map<List<WebhookSubscriptionDTO>>(subscriptions);
+        return Ok(webhookSubscriptions);
     }
 }

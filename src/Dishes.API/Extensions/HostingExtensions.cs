@@ -27,6 +27,8 @@ public static class HostingExtensions
 
         builder.Services.AddConfigurationOptions();
 
+        builder.Services.AddCommonConfigurationOptions();
+
         Hellang.Middleware.ProblemDetails.ProblemDetailsExtensions.AddProblemDetails(builder.Services);
 
         builder.Services.AddEndpointsApiExplorer();
